@@ -1,11 +1,5 @@
-function read() {
-  /**
-   * Прочесть файл puzzles.txt в кодировке 'utf-8' и вернуть эти данные из функции
-   */
- return [[[1, 2, 5, '.'], ['.', 2, 5, 8], [1, '.', 5, 5], [1, 2, 5, '.']]]
-}
-
-
+const { log } = require("console");
+const fs = require("fs");
 
 let input = [
 	["5", "3", ".", ".", "7", ".", ".", ".", "."],
@@ -108,83 +102,25 @@ console.table(solveSudoku(input));
 
 
 
-function solve() {
-	let board = read[0]
-  /**
-   * Принимает игровое поле в том формате, в котором его вернули из функции read.
-   * Возвращает игровое поле после попытки его решить.
-   */
-  const size = 4;
-  const boxSize = 2;
-
-  const findEmpty=(board)=>{
-	  for (let row = 0; row < size; row++){
-		  for (let col = 0; col < size; col++){
-			  if(board[row][col] === '.'){
-				  return [row, col]
-				}
-			} 
-		}
-		return null
-	}
-
-	const validate = (num, pos, board) =>{
-		const [row, col] = pos;
-		//Проверка строк
-		for (let i = 0; i < size; i++){
-			if (board[i][c] === num && i !== r){
-				return false;
-			}
-
-		//Проверка колонок
-		for (let i = 0; i < size; i++){
-			if (board[row][i] === num && i !== col){
-				return false;
-			}
-		}
-
-		//Проверка квадратов
-	const boxRow =Math.floor(row / boxSize) * boxSize;
-	const boxCol =Math.floor(col / boxSize) * boxSize;
-
-	for (let i = boxRow; i < boxRow + boxSize; i++){
-		for (let j = boxCol; j < boxCol + boxSize; j++){
-			if (board[i][j] === num && i !== r && j !== c){
-				return false;
-			}
-		}
-	}
-	return true	
-	}
-
-	const solver=() => {
-		const currPos = findEmpty(board)
-
-		if (currPos === null){
-		return true
-		}
-
-		for (let i = 1; i < size + 1; i++){
-			const currentNum = i.toString();
-			const isValid = validate(currentNum, currPos, board)
-
-			if (isValid){
-				const [x, y] = currPos;
-				board[x][y] = currNum;
-
-				if(solver())
-				return true;
-			}
-			board[x][y];
-		}
-
-		return false;
-	}
+function read(str) {
+  let str = fs.readFileSync("./puzzles.txt", "utf-8");
+  let newStr = str.split("\r\n");
+  let arrAll = [];
+  let firstArr = [];
+  for (let i = 0; i < newStr.length; i++) {
+    firstArr.push(newStr[i].split(""));
+    for (let y = 0; y < 9; y++) {
+      arrAll.push(firstArr[i].slice(0, 9));
+      firstArr[i].splice(0, 9);
+    }
+  }
+  return arrAll;
 }
 
-console.table(solve())
+read();
 
-}
+
+
 function isSolved() {
   /**
    * Принимает игровое поле в том формате, в котором его вернули из функции solve.
