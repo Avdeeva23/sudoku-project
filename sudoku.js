@@ -1,22 +1,39 @@
 const { log } = require("console");
 const fs = require("fs");
 
-function read(str) {
+function read() {
   let str = fs.readFileSync("./puzzles.txt", "utf-8");
   let newStr = str.split("\r\n");
   let arrAll = [];
   let firstArr = [];
+  
   for (let i = 0; i < newStr.length; i++) {
+    let secondArr=[]
     firstArr.push(newStr[i].split(""));
     for (let y = 0; y < 9; y++) {
-      arrAll.push(firstArr[i].slice(0, 9));
+      secondArr.push(firstArr[i].slice(0, 9));
       firstArr[i].splice(0, 9);
+
+      
+      // for (let x = 0; x < 3; x++){
+        
+      //   arr2.push(secondArr[y].slice(0, 3));
+      //   secondArr[y].splice(0, 3);
+      //   arrAll.push(arr2)
+        
+
+      // }
+    
     }
+    arrAll.push(secondArr)
+
+       
   }
+  console.log(arrAll)
   return arrAll;
 }
-
-read();
+read()
+; 
 
 function solve() {
   /**
